@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="270dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/tv_show_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:elevation="3dp"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/tv_show_moviethumb"
+                android:layout_width="350dp"
+                android:layout_height="200dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/tv_show_stars"
+                android:layout_width="35dp"
+                android:layout_height="32dp"
+                android:layout_alignBottom="@+id/tv_show_moviethumb"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="5dp"
+                app:srcCompat="@android:drawable/btn_star_big_on" />
+
+            <TextView
+                android:id="@+id/tv_show_rating"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_show_moviethumb"
+                android:layout_toLeftOf="@+id/tv_show_stars"
+                android:layout_toStartOf="@+id/tv_show_stars"
+                android:gravity="right"
+                android:paddingBottom="5dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/tv_show_movietitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_show_moviethumb"
+                android:fontFamily="cursive"
+                android:paddingLeft="8dp"
+                android:paddingRight="10dp"
+                android:paddingTop="8dp"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
