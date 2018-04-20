@@ -48,7 +48,8 @@
                     android:textColor="@color/colorAccent"
                     android:fontFamily="casual"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -131,7 +132,8 @@
                     android:textColor="@color/colorAccent"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:fontFamily="casual"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -173,7 +175,8 @@
                     android:textColor="@color/colorAccent"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:fontFamily="casual"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 

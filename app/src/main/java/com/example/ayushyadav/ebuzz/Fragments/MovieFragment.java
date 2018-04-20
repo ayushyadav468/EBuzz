@@ -1,5 +1,6 @@
 package com.example.ayushyadav.ebuzz.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,9 +16,12 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.ayushyadav.ebuzz.Activities.MovieDetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.MovieViewAllActivity;
 import com.example.ayushyadav.ebuzz.Adapters.MoviesCardView1Adapter;
 import com.example.ayushyadav.ebuzz.Adapters.MoviesCardView2Adapter;
 import com.example.ayushyadav.ebuzz.ApiClient;
+import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MovieResults;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MoviesList;
 import com.example.ayushyadav.ebuzz.R;
@@ -66,10 +70,42 @@ public class MovieFragment extends Fragment {
         upComingRecyclerView = view.findViewById(R.id.upComingRecyclerView);
         topRatedRecyclerView = view.findViewById(R.id.topRatedRecyclerView);
 
-        nowShowingAdapter = new MoviesCardView1Adapter(nowShowingArrayList, getContext());
-        upComingAdapter = new MoviesCardView1Adapter(upComingArrayList, getContext());
-        popularAdapter = new MoviesCardView2Adapter(popularArrayList, getContext());
-        topRatedAdapter = new MoviesCardView2Adapter(topRatedArrayList, getContext());
+        nowShowingAdapter = new MoviesCardView1Adapter(nowShowingArrayList, getContext(), new MoviesCardView1Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = nowShowingArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                intent.putExtra(Constants.MOVIE_ID, id);
+                startActivity(intent);
+            }
+        });
+        upComingAdapter = new MoviesCardView1Adapter(upComingArrayList, getContext(), new MoviesCardView1Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = upComingArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                intent.putExtra(Constants.MOVIE_ID, id);
+                startActivity(intent);
+            }
+        });
+        popularAdapter = new MoviesCardView2Adapter(popularArrayList, getContext(), new MoviesCardView2Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = popularArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                intent.putExtra(Constants.MOVIE_ID, id);
+                startActivity(intent);
+            }
+        });
+        topRatedAdapter = new MoviesCardView2Adapter(topRatedArrayList, getContext(), new MoviesCardView2Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = topRatedArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                intent.putExtra(Constants.MOVIE_ID, id);
+                startActivity(intent);
+            }
+        });
 
         nowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         nowShowingRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
@@ -94,6 +130,39 @@ public class MovieFragment extends Fragment {
         topRatedRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
         topRatedRecyclerView.setItemAnimator(new DefaultItemAnimator());
         topRatedRecyclerView.setAdapter(topRatedAdapter);
+
+        nowShowingTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),MovieViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE,Constants.NOW_SHOWING_MOVIES_TYPE);
+                startActivity(intent);
+            }
+        });
+        popularTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), MovieViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE,Constants.POPULAR_MOVIES_TYPE);
+                startActivity(intent);
+            }
+        });
+        upComingTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), MovieViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE,Constants.UPCOMING_MOVIES_TYPE);
+                startActivity(intent);
+            }
+        });
+        topRatedTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), MovieViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE,Constants.TOP_RATED_MOVIES_TYPE);
+                startActivity(intent);
+            }
+        });
 
         fetchNowShowingMoviesList();
         fetchPopularMoviesList();

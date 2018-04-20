@@ -33,5 +33,10 @@ public class Constants {
     public static final int UPCOMING_MOVIES_TYPE = 3;
     public static final int TOP_RATED_MOVIES_TYPE = 4;
 
+    public static final String VIEW_ALL_TVSHOW_TYPE = "type_view_all_tv_show";
+    public static final int SHOW_AIRING_TODAY_TYPE = 1;
+    public static final int POPULAR_TVSHOW_TYPE = 2;
+    public static final int SHOW_ON_AIR_TYPE = 3;
+    public static final int TOP_RATED_TVSHOW_TYPE = 4;
 
 }

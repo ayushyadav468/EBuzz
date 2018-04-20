@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ayushyadav.ebuzz">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,8 +22,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.DetailActivity"
+            android:name=".Activities.MovieDetailActivity"
             android:label="@string/title_activity_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.MovieViewAllActivity" />
+        <activity android:name=".Activities.TVShowsViewAllActivity" />
+        <activity
+            android:name=".Activities.TVDetailActivity"
+            android:label="@string/title_activity_tvdetail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.CastDetailActivity"
+            android:label="@string/title_activity_cast_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

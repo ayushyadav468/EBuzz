@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ayushyadav.ebuzz.Activities.DetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.TVDetailActivity;
 import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowResults;
 import com.example.ayushyadav.ebuzz.R;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class TVShowsCardView1Adapter extends RecyclerView.Adapter<TVShowsCardView1Adapter.ViewHolder> {
 
-    interface onItemClickListener {
+    public interface onItemClickListener {
         void onItemClick(int position);
     }
 
@@ -29,9 +29,10 @@ public class TVShowsCardView1Adapter extends RecyclerView.Adapter<TVShowsCardVie
     Context context;
     onItemClickListener onItemClickListener;
 
-    public TVShowsCardView1Adapter(ArrayList<TVShowResults> tvShowResults, Context context) {
+    public TVShowsCardView1Adapter(ArrayList<TVShowResults> tvShowResults, Context context, onItemClickListener onItemClickListener) {
         this.tvShowResults = tvShowResults;
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -42,7 +43,7 @@ public class TVShowsCardView1Adapter extends RecyclerView.Adapter<TVShowsCardVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final TVShowResults results = tvShowResults.get(position);
         holder.movieTitle.setText(results.getTitle());
         Picasso.get().load(Constants.bigSizeImageURL + results.getBackdropPath()).into(holder.movieThumbnail);
@@ -50,17 +51,13 @@ public class TVShowsCardView1Adapter extends RecyclerView.Adapter<TVShowsCardVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.TV_SHOW_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
         holder.movieThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.TV_SHOW_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
     }

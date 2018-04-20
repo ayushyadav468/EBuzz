@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ayushyadav.ebuzz.Activities.DetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.CastDetailActivity;
 import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.CastResults;
 import com.example.ayushyadav.ebuzz.R;
@@ -19,17 +19,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    interface onItemClickListener {
+    public interface onItemClickListener {
         void onItemClick(int position);
     }
 
     ArrayList<CastResults> castResults;
     Context context;
-    MoviesCardView1Adapter.onItemClickListener onItemClickListener;
+    onItemClickListener onItemClickListener;
 
-    public CastAdapter(ArrayList<CastResults> castResults, Context context) {
+    public CastAdapter(ArrayList<CastResults> castResults, Context context, onItemClickListener onItemClickListener) {
         this.castResults = castResults;
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -40,24 +41,26 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final CastResults results = castResults.get(position);
         holder.nameTextView.setText(results.getName());
         Picasso.get().load(Constants.bigSizeImageURL + results.getProfilePath()).into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.CAST_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.CAST_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
+            }
+        });
+        holder.nameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(position);
             }
         });
     }

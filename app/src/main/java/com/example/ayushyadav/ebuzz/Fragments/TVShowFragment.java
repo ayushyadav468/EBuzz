@@ -1,5 +1,6 @@
 package com.example.ayushyadav.ebuzz.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,9 +16,15 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.ayushyadav.ebuzz.Activities.CastDetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.MovieViewAllActivity;
+import com.example.ayushyadav.ebuzz.Activities.TVDetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.TVShowsViewAllActivity;
+import com.example.ayushyadav.ebuzz.Adapters.TVShowViewAllAdapter;
 import com.example.ayushyadav.ebuzz.Adapters.TVShowsCardView1Adapter;
 import com.example.ayushyadav.ebuzz.Adapters.TVShowsCardView2Adapter;
 import com.example.ayushyadav.ebuzz.ApiClient;
+import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MovieResults;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowList;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowList;
@@ -47,8 +54,7 @@ public class TVShowFragment extends Fragment {
     ProgressBar TVShowFragmentProgressBar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tvshow, container, false);
 
@@ -69,10 +75,42 @@ public class TVShowFragment extends Fragment {
         showsOnAirRecyclerView = view.findViewById(R.id.upComingRecyclerView);
         topRatedRecyclerView = view.findViewById(R.id.topRatedRecyclerView);
 
-        showsAiringTodayAdapter = new TVShowsCardView1Adapter(showsAiringTodayArrayList, getContext());
-        showsOnAirAdapter = new TVShowsCardView1Adapter(showsOnAirArrayList, getContext());
-        popularTVShowsAdapter = new TVShowsCardView2Adapter(popularTVShowsArrayList, getContext());
-        topRatedAdapter = new TVShowsCardView2Adapter(topRatedArrayList, getContext());
+        showsAiringTodayAdapter = new TVShowsCardView1Adapter(showsAiringTodayArrayList, getContext(), new TVShowsCardView1Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = showsAiringTodayArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), TVDetailActivity.class);
+                intent.putExtra(Constants.TV_SHOW_ID, id);
+                startActivity(intent);
+            }
+        });
+        showsOnAirAdapter = new TVShowsCardView1Adapter(showsOnAirArrayList, getContext(), new TVShowsCardView1Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = showsOnAirArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), TVDetailActivity.class);
+                intent.putExtra(Constants.TV_SHOW_ID, id);
+                startActivity(intent);
+            }
+        });
+        popularTVShowsAdapter = new TVShowsCardView2Adapter(popularTVShowsArrayList, getContext(), new TVShowsCardView2Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = popularTVShowsArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), TVDetailActivity.class);
+                intent.putExtra(Constants.TV_SHOW_ID, id);
+                startActivity(intent);
+            }
+        });
+        topRatedAdapter = new TVShowsCardView2Adapter(topRatedArrayList, getContext(), new TVShowsCardView2Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = topRatedArrayList.get(position).getId();
+                Intent intent = new Intent(getContext(), TVDetailActivity.class);
+                intent.putExtra(Constants.TV_SHOW_ID, id);
+                startActivity(intent);
+            }
+        });
 
         showsAiringTodayRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         showsAiringTodayRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
@@ -97,6 +135,39 @@ public class TVShowFragment extends Fragment {
         topRatedRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
         topRatedRecyclerView.setItemAnimator(new DefaultItemAnimator());
         topRatedRecyclerView.setAdapter(topRatedAdapter);
+
+        showsAiringTodayTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TVShowsViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_TVSHOW_TYPE, Constants.SHOW_AIRING_TODAY_TYPE);
+                startActivity(intent);
+            }
+        });
+        popularTVShowsTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TVShowsViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_TVSHOW_TYPE, Constants.POPULAR_TVSHOW_TYPE);
+                startActivity(intent);
+            }
+        });
+        showsOnAirTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TVShowsViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_TVSHOW_TYPE, Constants.SHOW_AIRING_TODAY_TYPE);
+                startActivity(intent);
+            }
+        });
+        topRatedTextViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TVShowsViewAllActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_TVSHOW_TYPE, Constants.TOP_RATED_TVSHOW_TYPE);
+                startActivity(intent);
+            }
+        });
 
         fetchNowShowingTVShowList();
         fetchPopularTVShowList();

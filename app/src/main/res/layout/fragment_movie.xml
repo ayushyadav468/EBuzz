@@ -32,11 +32,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:fontFamily="casual"
                     android:text="In Theatres"
-                    android:textColor="#C0C0C0"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                    android:textStyle="bold"
-                    android:fontFamily="casual" />
+                    android:textColor="#C0C0C0"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_view_view_all_now_showing"
@@ -44,11 +44,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
-                    android:textColor="@color/colorAccent"
                     android:fontFamily="casual"
+                    android:text="View All"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textStyle="bold" />
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -74,10 +75,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Popular"
-                    android:textColor="#C0C0C0"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:fontFamily="casual"
+                    android:text="Popular"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="#C0C0C0"
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,10 +87,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
+                    android:fontFamily="casual"
                     android:text="View All"
-                    android:textColor="@color/colorAccent"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:fontFamily="casual" />
+                    android:textColor="@color/colorAccent"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -115,10 +117,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Upcoming"
-                    android:textColor="#C0C0C0"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:fontFamily="casual"
+                    android:text="Upcoming"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="#C0C0C0"
                     android:textStyle="bold" />
 
                 <TextView
@@ -127,11 +129,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:fontFamily="casual"
-                    android:textStyle="bold" />
+                    android:text="View All"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -157,11 +160,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:fontFamily="casual"
                     android:text="Top Rated"
-                    android:textColor="#C0C0C0"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                    android:textStyle="bold"
-                    android:fontFamily="casual" />
+                    android:textColor="#C0C0C0"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_view_view_all_top_rated"
@@ -169,11 +172,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:fontFamily="casual"
-                    android:textStyle="bold" />
+                    android:text="View All"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:focusable="true" />
 
             </FrameLayout>
 
@@ -192,6 +196,6 @@
         android:id="@+id/movieFragmentProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </FrameLayout>

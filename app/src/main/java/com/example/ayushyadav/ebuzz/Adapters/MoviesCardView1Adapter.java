@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ayushyadav.ebuzz.Activities.DetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.MovieDetailActivity;
 import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MovieResults;
 import com.example.ayushyadav.ebuzz.R;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class MoviesCardView1Adapter extends RecyclerView.Adapter<MoviesCardView1Adapter.ViewHolder> {
 
-    interface onItemClickListener {
+    public interface onItemClickListener {
         void onItemClick(int position);
     }
 
@@ -29,9 +29,10 @@ public class MoviesCardView1Adapter extends RecyclerView.Adapter<MoviesCardView1
     Context context;
     onItemClickListener onItemClickListener;
 
-    public MoviesCardView1Adapter(ArrayList<MovieResults> movieResults, Context context) {
+    public MoviesCardView1Adapter(ArrayList<MovieResults> movieResults, Context context, onItemClickListener onItemClickListener) {
         this.movieResults = movieResults;
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -42,7 +43,7 @@ public class MoviesCardView1Adapter extends RecyclerView.Adapter<MoviesCardView1
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final MovieResults results = movieResults.get(position);
         holder.movieTitle.setText(results.getOriginTitle());
         Picasso.get().load(Constants.bigSizeImageURL + results.getBackdropPath()).into(holder.movieThumbnail);
@@ -50,17 +51,13 @@ public class MoviesCardView1Adapter extends RecyclerView.Adapter<MoviesCardView1
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.MOVIE_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
         holder.movieThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.MOVIE_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
     }

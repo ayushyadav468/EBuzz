@@ -10,8 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.ayushyadav.ebuzz.Activities.DetailActivity;
+import com.example.ayushyadav.ebuzz.Activities.TVDetailActivity;
 import com.example.ayushyadav.ebuzz.Constants;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowResults;
 import com.example.ayushyadav.ebuzz.R;
@@ -21,17 +20,18 @@ import java.util.ArrayList;
 
 public class TVShowsCardView2Adapter extends RecyclerView.Adapter<TVShowsCardView2Adapter.ViewHolder> {
 
-    interface onItemClickListener {
+    public interface onItemClickListener {
         void onItemClick(int position);
     }
 
     ArrayList<TVShowResults> tvShowResults;
     Context context;
-    TVShowsCardView1Adapter.onItemClickListener onItemClickListener;
+    onItemClickListener onItemClickListener;
 
-    public TVShowsCardView2Adapter(ArrayList<TVShowResults> tvShowResults, Context context) {
+    public TVShowsCardView2Adapter(ArrayList<TVShowResults> tvShowResults, Context context, onItemClickListener onItemClickListener) {
         this.tvShowResults = tvShowResults;
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -42,24 +42,20 @@ public class TVShowsCardView2Adapter extends RecyclerView.Adapter<TVShowsCardVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder,final int position) {
         final TVShowResults results = tvShowResults.get(position);
         holder.tvShowTitle.setText(results.getTitle());
         Picasso.get().load(Constants.mediumSizeImageURL + results.getBackdropPath()).fit().into(holder.smallPoster);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.TV_SHOW_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
         holder.smallPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Constants.TV_SHOW_ID, results.getId());
-                context.startActivity(intent);
+                onItemClickListener.onItemClick(position);
             }
         });
     }
