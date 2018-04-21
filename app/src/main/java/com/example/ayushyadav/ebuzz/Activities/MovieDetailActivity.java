@@ -6,22 +6,37 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ayushyadav.ebuzz.Adapters.DetailCastAdapter;
+import com.example.ayushyadav.ebuzz.Adapters.MoviesCardView2Adapter;
 import com.example.ayushyadav.ebuzz.ApiClient;
 import com.example.ayushyadav.ebuzz.Constants;
+import com.example.ayushyadav.ebuzz.NetworkClasses.CastDetails;
+import com.example.ayushyadav.ebuzz.NetworkClasses.CastList;
+import com.example.ayushyadav.ebuzz.NetworkClasses.CastResults;
+import com.example.ayushyadav.ebuzz.NetworkClasses.DetailActivityCastList;
+import com.example.ayushyadav.ebuzz.NetworkClasses.DetailActivityCastResults;
 import com.example.ayushyadav.ebuzz.NetworkClasses.Genres;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MovieDetails;
+import com.example.ayushyadav.ebuzz.NetworkClasses.MovieResults;
+import com.example.ayushyadav.ebuzz.NetworkClasses.MoviesList;
 import com.example.ayushyadav.ebuzz.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +53,10 @@ public class MovieDetailActivity extends AppCompatActivity{
     private Toolbar mtoolbar;
     private ConstraintLayout ToolbarConstraintLayout;
     private LinearLayout MovieRatingLinearLayout;
+    private RecyclerView similarMovieRecyclerView;
+    private MoviesCardView2Adapter similarMoviesRecyclerAdapter;
+    private RecyclerView castRecyclerView;
+    private DetailCastAdapter detailCastAdapter;
 
     private ProgressBar progressBar;
 
@@ -50,6 +69,9 @@ public class MovieDetailActivity extends AppCompatActivity{
     private TextView yearOfReleasetext;
     private TextView movieRating;
     private TextView revenueandbudget;
+
+    private ArrayList<MovieResults> similarMoviesArrayList = new ArrayList<>();
+    private ArrayList<DetailActivityCastResults> castDetailsArrayList = new ArrayList<>();
 
     private LinearLayout mDetailsLayout;
 
@@ -83,8 +105,74 @@ public class MovieDetailActivity extends AppCompatActivity{
         ToolbarConstraintLayout = findViewById(R.id.toolbarConstraintLayout);
         MovieRatingLinearLayout = findViewById(R.id.layout_rating_movie_detail);
 
-        loadDetail();
+        similarMovieRecyclerView = findViewById(R.id.recycler_view_similar_movie_detail);
+        similarMoviesRecyclerAdapter = new MoviesCardView2Adapter(similarMoviesArrayList, getApplicationContext(), new MoviesCardView2Adapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = similarMoviesArrayList.get(position).getId();
+                Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+                intent.putExtra(Constants.MOVIE_ID, id);
+                startActivity(intent);
+            }
+        });
+        similarMovieRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        similarMovieRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.HORIZONTAL));
+        similarMovieRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        similarMovieRecyclerView.setAdapter(similarMoviesRecyclerAdapter);
 
+        castRecyclerView = findViewById(R.id.cast_recycler_view);
+        detailCastAdapter = new DetailCastAdapter(castDetailsArrayList, getApplicationContext(), new DetailCastAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                long id = castDetailsArrayList.get(position).getId();
+                Intent intent = new Intent(getApplicationContext(), CastDetailActivity.class);
+                intent.putExtra(Constants.CAST_ID, id);
+                startActivity(intent);
+            }
+        });
+
+
+        loadDetail();
+        loadSimilarMovies();
+        loadCast();
+    }
+
+    private void loadCast() {
+        Call<DetailActivityCastList> castResultsCall = ApiClient.getInstance().getApiCall().getMovieCast(movieid, Constants.apiKey);
+        castResultsCall.enqueue(new Callback<DetailActivityCastList>() {
+            @Override
+            public void onResponse(Call<DetailActivityCastList> call, Response<DetailActivityCastList> response) {
+                DetailActivityCastList castList =  response.body();
+                if(castList != null){
+                    castDetailsArrayList.clear();
+                    castDetailsArrayList.addAll(castList.cast);
+                    detailCastAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<DetailActivityCastList> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"onFailed",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadSimilarMovies() {
+        Call<MoviesList> nowShowingMoviesListCall = ApiClient.getInstance().getApiCall().getSimilar(movieid,Constants.apiKey,"en",1);
+        nowShowingMoviesListCall.enqueue(new Callback<MoviesList>() {
+            @Override
+            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
+                MoviesList moviesList = response.body();
+                if (moviesList != null) {
+                    similarMoviesArrayList.clear();
+                    similarMoviesArrayList.addAll(moviesList.results);
+                    similarMoviesRecyclerAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onFailure(Call<MoviesList> call, Throwable t) {
+
+            }
+        });
     }
 
     private void loadDetail() {
@@ -156,7 +244,7 @@ public class MovieDetailActivity extends AppCompatActivity{
 
         if (releaseString != null && !releaseString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("MM dd, yyyy");
             try {
                 Date releaseDate = sdf1.parse(releaseString);
                 detailsString += sdf2.format(releaseDate) + "\n";

@@ -8,10 +8,96 @@
     tools:context=".Activities.CastDetailActivity"
     tools:showIn="@layout/activity_cast_detail">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_details_movie_detail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
+                android:text="BirthDate: "
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/text_view_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
+                android:paddingStart="10dp"
+                android:text="DeathDay: "
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/text_view_deathday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
+                android:paddingStart="10dp"
+                android:text="Place Of Birth: "
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/text_view_placeOfBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
+                android:paddingStart="10dp"
+                android:text="Popularity: "
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/text_view_popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

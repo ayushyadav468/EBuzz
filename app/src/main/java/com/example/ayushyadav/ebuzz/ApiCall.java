@@ -1,9 +1,12 @@
 package com.example.ayushyadav.ebuzz;
 
+import com.example.ayushyadav.ebuzz.NetworkClasses.CastDetails;
 import com.example.ayushyadav.ebuzz.NetworkClasses.CastList;
+import com.example.ayushyadav.ebuzz.NetworkClasses.DetailActivityCastList;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MovieDetails;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MoviesList;
 import com.example.ayushyadav.ebuzz.NetworkClasses.MoviesViewAllResult;
+import com.example.ayushyadav.ebuzz.NetworkClasses.TVDetails;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowList;
 import com.example.ayushyadav.ebuzz.NetworkClasses.TVShowViewAllResult;
 
@@ -27,6 +30,15 @@ public interface ApiCall {
 
     @GET(Constants.castURL) Call<CastList> personData();
 
+    @GET("movie/{id}/similar")
+    Call<MoviesList> getSimilar(@Path("id") long movieId, @Query("api_key") String apiKey, @Query("language") String language, @Query("page") int page);
+
+    @GET("movie/{id}/credits")
+    Call<DetailActivityCastList> getMovieCast(@Path("id") long movieId, @Query("api_key") String apiKey);
+
+    @GET("tv/{id}/credits")
+    Call<DetailActivityCastList> getTVCast(@Path("id") long tvId, @Query("api_key") String apiKey, @Query("language") String language);
+
     @GET("movie/now_playing")
     Call<MoviesViewAllResult> getlatest(@Query("api_key") String apiKey, @Query("language") String language, @Query("page") int page);
     @GET("movie/popular")
@@ -47,6 +59,9 @@ public interface ApiCall {
 
     @GET("movie/{id}")
     Call<MovieDetails> getMovieDetails(@Path("id") long movieId, @Query("api_key") String apiKey);
-
+    @GET("tv/{id}/{api_key}&language=en-US")
+    Call<TVDetails> getTVShowDetails(@Path("id") long tvId, @Query("api_key") String apiKey);
+    @GET("person/{id}")
+    Call<CastDetails> getCastDetails(@Path("id") long personId, @Query("api_key") String apiKey, @Query("language") String language);
 
 }
